@@ -20,7 +20,7 @@ public class FitTrackerIO {
 
 	public static void writeData(String fileName, int year, int month, int day, int sleep, int steps)
 			throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader("data.csv"));
+		BufferedReader br = new BufferedReader(new FileReader("bin/data.csv"));
 		FileWriter fileWriter = null;
 		if (br.readLine() == null) {
 			try {
@@ -94,7 +94,7 @@ public class FitTrackerIO {
 	}
 
 	public static void writeSettings(String fileName, int sleepGoal, int stepsGoal) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader("settings.csv"));
+		BufferedReader br = new BufferedReader(new FileReader("bin/settings.csv"));
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(fileName);

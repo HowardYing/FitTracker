@@ -2,7 +2,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -26,6 +29,7 @@ public class FitTrackerScreens {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menuTabs = new JTabbedPane();
 
+		// Record Panel Code
 		recordPanelMain = new JPanel();
 		recordPanelMain.setLayout(new GridLayout(3, 1));
 		JPanel recordPanel1 = new JPanel();
@@ -57,7 +61,7 @@ public class FitTrackerScreens {
 			public void actionPerformed(ActionEvent e) {
 				if (Integer.parseInt(rDateEntryM.getText()) <= 12 && Integer.parseInt(rDateEntryD.getText()) <= 31) {
 					try {
-						FitTrackerIO.writeData("src/data.csv", Integer.parseInt(rDateEntryY.getText()),
+						FitTrackerIO.writeData("bin/data.csv", Integer.parseInt(rDateEntryY.getText()),
 								Integer.parseInt(rDateEntryM.getText()), Integer.parseInt(rDateEntryD.getText()),
 								Integer.parseInt(sleepEntry.getText()), Integer.parseInt(stepsEntry.getText()));
 					} catch (NumberFormatException e1) {
@@ -78,6 +82,7 @@ public class FitTrackerScreens {
 		recordPanelMain.setVisible(true);
 		menuTabs.addTab("Record", recordPanelMain);
 
+		// View Panel Code
 		viewPanelMain = new JPanel();
 		viewPanelMain.setLayout(new GridLayout(4, 1));
 		JPanel viewPanel1 = new JPanel();
@@ -103,9 +108,24 @@ public class FitTrackerScreens {
 		viewPanel2.add(vDateEntryD);
 		viewPanel3.add(vLoadButton);
 		viewPanel3.add(loadDate);
+		vLoadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BufferedReader br = new BufferedReader(new FileReader("bin/data.csv"));
+					while (br.readLine() != null) {
+						System.out.println(br.readLine());
+					}
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		viewPanelMain.setVisible(true);
 		menuTabs.addTab("View", viewPanelMain);
 
+		// Settings Panel Code
 		settingsPanelMain = new JPanel();
 		settingsPanelMain.setLayout(new GridLayout(3, 1, 10, 10));
 		JPanel settingsPanel1 = new JPanel();
@@ -134,7 +154,7 @@ public class FitTrackerScreens {
 				if (Integer.parseInt(sleepGoalEntry.getText()) <= 18
 						&& Integer.parseInt(stepsGoalEntry.getText()) <= 50000) {
 					try {
-						FitTrackerIO.writeSettings("src/settings.csv", Integer.parseInt(sleepGoalEntry.getText()),
+						FitTrackerIO.writeSettings("bin/settings.csv", Integer.parseInt(sleepGoalEntry.getText()),
 								Integer.parseInt(stepsGoalEntry.getText()));
 					} catch (NumberFormatException e1) {
 						e1.printStackTrace();
