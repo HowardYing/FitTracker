@@ -57,7 +57,7 @@ public class FitTrackerScreens {
 			public void actionPerformed(ActionEvent e) {
 				if (Integer.parseInt(rDateEntryM.getText()) <= 12 && Integer.parseInt(rDateEntryD.getText()) <= 31) {
 					try {
-						FitTrackerIO.writeData("data.csv", Integer.parseInt(rDateEntryY.getText()),
+						FitTrackerIO.writeData("src/data.csv", Integer.parseInt(rDateEntryY.getText()),
 								Integer.parseInt(rDateEntryM.getText()), Integer.parseInt(rDateEntryD.getText()),
 								Integer.parseInt(sleepEntry.getText()), Integer.parseInt(stepsEntry.getText()));
 					} catch (NumberFormatException e1) {
@@ -134,7 +134,7 @@ public class FitTrackerScreens {
 				if (Integer.parseInt(sleepGoalEntry.getText()) <= 18
 						&& Integer.parseInt(stepsGoalEntry.getText()) <= 50000) {
 					try {
-						FitTrackerIO.writeSettings("settings.csv", Integer.parseInt(sleepGoalEntry.getText()),
+						FitTrackerIO.writeSettings("src/settings.csv", Integer.parseInt(sleepGoalEntry.getText()),
 								Integer.parseInt(stepsGoalEntry.getText()));
 					} catch (NumberFormatException e1) {
 						e1.printStackTrace();
