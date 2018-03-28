@@ -24,15 +24,16 @@ public class FitTrackerWrite {
 		FileWriter fileWriter = null;
 		String stringMonth = String.valueOf(month);
 		String stringDay = String.valueOf(day);
+		//Standardize user inputted date code by affixing 0 before months or days < 10
 		if (stringMonth.length() == 1) {
 			stringMonth = "0" + stringMonth;
 		}
 		if (stringDay.length() == 1) {
 			stringDay = "0" + stringDay;
 		}
-		String encodedDate = String.valueOf(year) + stringMonth + stringDay;
-		if (br.readLine() == null) {
-			try {
+		String encodedDate = String.valueOf(year) + stringMonth + stringDay; //Construct date code from user input
+		if (br.readLine() == null) { //Detect if CSV file is blank or has old entries
+			try { //If detects CSV file is blank
 				fileWriter = new FileWriter(fileName);
 
 				// Write the CSV file header
@@ -41,7 +42,7 @@ public class FitTrackerWrite {
 				// Add a new line separator after the header
 				fileWriter.append(NEW_LINE_SEPARATOR);
 
-				// Write a new student object list to the CSV file
+				// Write the new entry values to file
 				fileWriter.append(String.valueOf(encodedDate));
 				fileWriter.append(COMMA_DELIMITER);
 				fileWriter.append(String.valueOf(sleep));
@@ -49,10 +50,8 @@ public class FitTrackerWrite {
 				fileWriter.append(String.valueOf(steps));
 				fileWriter.append(NEW_LINE_SEPARATOR);
 
-				System.out.println("CSV file was created successfully !!!");
 
 			} catch (Exception e) {
-				System.out.println("Error in CsvFileWriter !!!");
 				e.printStackTrace();
 			} finally {
 
@@ -60,15 +59,14 @@ public class FitTrackerWrite {
 					fileWriter.flush();
 					fileWriter.close();
 				} catch (IOException e) {
-					System.out.println("Error while flushing/closing fileWriter !!!");
 					e.printStackTrace();
 				}
 			}
-		} else {
-			try {
+		} else { 
+			try {//If detects CSV file has previous information
 				fileWriter = new FileWriter(fileName, true);
 
-				// Write a new object list to the CSV file
+				// Write the new entry values to file
 				fileWriter.append(String.valueOf(encodedDate));
 				fileWriter.append(COMMA_DELIMITER);
 				fileWriter.append(String.valueOf(sleep));
@@ -76,10 +74,7 @@ public class FitTrackerWrite {
 				fileWriter.append(String.valueOf(steps));
 				fileWriter.append(NEW_LINE_SEPARATOR);
 
-				System.out.println("CSV file was appended successfully !!!");
-
 			} catch (Exception e) {
-				System.out.println("Error in CsvFileWriter !!!");
 				e.printStackTrace();
 			} finally {
 
@@ -87,7 +82,6 @@ public class FitTrackerWrite {
 					fileWriter.flush();
 					fileWriter.close();
 				} catch (IOException e) {
-					System.out.println("Error while flushing/closing fileWriter !!!");
 					e.printStackTrace();
 				}
 			}
@@ -106,16 +100,13 @@ public class FitTrackerWrite {
 			// Add a new line separator after the header
 			fileWriter.append(NEW_LINE_SEPARATOR);
 
-			// Write a new student object list to the CSV file
+			// Write a new settings values to the CSV file
 			fileWriter.append(String.valueOf(sleepGoal));
 			fileWriter.append(COMMA_DELIMITER);
 			fileWriter.append(String.valueOf(stepsGoal));
 			fileWriter.append(NEW_LINE_SEPARATOR);
 
-			System.out.println("CSV file was created successfully !!!");
-
 		} catch (Exception e) {
-			System.out.println("Error in CsvFileWriter !!!");
 			e.printStackTrace();
 		} finally {
 
@@ -123,7 +114,6 @@ public class FitTrackerWrite {
 				fileWriter.flush();
 				fileWriter.close();
 			} catch (IOException e) {
-				System.out.println("Error while flushing/closing fileWriter !!!");
 				e.printStackTrace();
 			}
 		}

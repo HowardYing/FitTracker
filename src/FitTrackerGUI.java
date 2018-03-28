@@ -24,8 +24,8 @@ public class FitTrackerGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menuTabs = new JTabbedPane();
 
-		// Record Panel Code
-		recordPanelMain = new JPanel();
+		// "Record" Panel GUI Setup
+		recordPanelMain = new JPanel(); // Declare and initialize Master & sub JPanels
 		recordPanelMain.setLayout(new GridLayout(3, 1));
 		JPanel recordPanel1 = new JPanel();
 		recordPanel1.setLayout(new GridLayout(2, 1));
@@ -33,9 +33,11 @@ public class FitTrackerGUI {
 		recordPanel2.setLayout(new FlowLayout());
 		JPanel recordPanel3 = new JPanel();
 		recordPanel3.setLayout(new GridLayout(3, 2, 10, 10));
+		// Add sub JPanels to master
 		recordPanelMain.add(recordPanel1);
 		recordPanelMain.add(recordPanel2);
 		recordPanelMain.add(recordPanel3);
+		// Declare and initialize panel components
 		JTextField rDateEntryY = new JTextField(4);
 		JTextField rDateEntryM = new JTextField(2);
 		JTextField rDateEntryD = new JTextField(2);
@@ -48,6 +50,7 @@ public class FitTrackerGUI {
 		JLabel yearLabel = new JLabel("YYYY: ");
 		JLabel sleepPromptLabel = new JLabel("Enter hours slept below:  ", JLabel.CENTER);
 		JLabel stepsPromptLabel = new JLabel("Enter steps walked below: ", JLabel.CENTER);
+		// Add components to respective panels
 		recordPanel1.add(new JLabel("Record Entries", JLabel.CENTER));
 		recordPanel1.add(new JLabel("Enter Date:", JLabel.CENTER));
 		recordPanel2.add(monthLabel);
@@ -62,8 +65,10 @@ public class FitTrackerGUI {
 		recordPanel3.add(stepsEntry);
 		recordPanel3.add(rSaveButton);
 		recordPanel3.add(saveLabel);
+		// Add ActionListener - call FitTrackerWrite.writeData() and pass user input
 		rSaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Check for unrealistic or invalid inputs
 				if (Integer.parseInt(rDateEntryM.getText()) <= 12 && Integer.parseInt(rDateEntryD.getText()) <= 31) {
 					try {
 						FitTrackerWrite.writeData("data/data.csv", Integer.parseInt(rDateEntryY.getText()),
@@ -74,6 +79,7 @@ public class FitTrackerGUI {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+					//Display action confirmation
 					saveLabel.setText("Step & Sleep Data Saved");
 					recordPanel3.repaint();
 					recordPanel3.revalidate();
@@ -87,8 +93,8 @@ public class FitTrackerGUI {
 		recordPanelMain.setVisible(true);
 		menuTabs.addTab("Record", recordPanelMain);
 
-		// View Panel Code
-		viewPanelMain = new JPanel();
+		// "View" Panel GUI Setup
+		viewPanelMain = new JPanel();// Declare and Initialize Master & Sub JPanels
 		viewPanelMain.setLayout(new GridLayout(4, 1));
 		JPanel viewPanel1 = new JPanel();
 		viewPanel1.setLayout(new GridLayout(2, 1));
@@ -98,10 +104,12 @@ public class FitTrackerGUI {
 		viewPanel3.setLayout(new GridLayout(2, 1));
 		JPanel viewPanel4 = new JPanel();
 		viewPanel4.setLayout(new GridLayout(2, 2, 10, 10));
+		// Add sub JPanels to master
 		viewPanelMain.add(viewPanel1);
 		viewPanelMain.add(viewPanel2);
 		viewPanelMain.add(viewPanel3);
 		viewPanelMain.add(viewPanel4);
+		// Declare and initialize panel components
 		JTextField vDateEntryY = new JTextField(4);
 		JTextField vDateEntryM = new JTextField(2);
 		JTextField vDateEntryD = new JTextField(2);
@@ -114,6 +122,7 @@ public class FitTrackerGUI {
 		JLabel vMonthLabel = new JLabel("MM: ");
 		JLabel vDayLabel = new JLabel("DD: ");
 		JLabel vYearLabel = new JLabel("YYYY: ");
+		// Add components to respective panels
 		viewPanel1.add(new JLabel("View Past Entries", JLabel.CENTER));
 		viewPanel1.add(new JLabel("Enter a Recall Date:", JLabel.CENTER));
 		viewPanel2.add(vMonthLabel);
@@ -128,9 +137,11 @@ public class FitTrackerGUI {
 		viewPanel4.add(stepsLabel);
 		viewPanel4.add(sleepGoal);
 		viewPanel4.add(stepsGoal);
+		// Add ActionListener - call FitTrackerRead.readData() and pass user input
 		vLoadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					//Check for unrealistic or invalid inputs
 					if (Integer.parseInt(vDateEntryM.getText()) <= 12
 							&& Integer.parseInt(vDateEntryD.getText()) <= 31) {
 						FitTrackerRead.readData("data/data.csv", Integer.parseInt(vDateEntryY.getText()),
@@ -142,8 +153,10 @@ public class FitTrackerGUI {
 									+ FitTrackerRead.recalledD + "/" + FitTrackerRead.recalledY);
 							viewPanel3.repaint();
 							viewPanel3.revalidate();
+							//Display recalled values from CSV
 							sleepLabel.setText("You Slept for: " + FitTrackerRead.recalledSleep + " hours");
 							stepsLabel.setText("You walked about: " + FitTrackerRead.recalledSteps + " steps");
+							//Check if stored data meets current goal
 							if (Integer.valueOf(FitTrackerRead.recalledSleep) > Integer
 									.valueOf(FitTrackerRead.recalledSleepGoal)) {
 								metSleep = "met";
@@ -161,6 +174,7 @@ public class FitTrackerGUI {
 							viewPanel4.repaint();
 							viewPanel4.revalidate();
 						} else {
+							//Return if no entry found from FitTrackerRead.readData()
 							loadDate.setText("No entry found for " + vDateEntryM.getText() + "/" + vDateEntryD.getText()
 									+ "/" + vDateEntryY.getText());
 							viewPanel3.repaint();
@@ -182,8 +196,8 @@ public class FitTrackerGUI {
 		viewPanelMain.setVisible(true);
 		menuTabs.addTab("View", viewPanelMain);
 
-		// Settings Panel Code
-		settingsPanelMain = new JPanel();
+		// "Settings" Panel GUI Setup
+		settingsPanelMain = new JPanel();// Declare and Initialize Master & Sub JPanels
 		settingsPanelMain.setLayout(new GridLayout(3, 1, 10, 10));
 		JPanel settingsPanel1 = new JPanel();
 		settingsPanel1.setLayout(new GridLayout(3, 1));
@@ -191,15 +205,18 @@ public class FitTrackerGUI {
 		settingsPanel2.setLayout(new GridLayout(2, 2, 20, 20));
 		JPanel settingsPanel3 = new JPanel();
 		settingsPanel3.setLayout(new GridLayout(2, 1));
+		// Add sub JPanels to master
 		settingsPanelMain.add(settingsPanel1);
 		settingsPanelMain.add(settingsPanel2);
 		settingsPanelMain.add(settingsPanel3);
+		// Declare and initialize panel components
 		JTextField sleepGoalEntry = new JTextField(5);
 		JTextField stepsGoalEntry = new JTextField(5);
 		JButton sSaveButton = new JButton("Save Entry");
 		JLabel updateLabel = new JLabel("");
 		settingsPanel1.add(new JLabel("Settings", JLabel.CENTER));
-		FitTrackerRead.readSettings("data/settings.csv");
+		FitTrackerRead.readSettings("data/settings.csv");// Read current settings values from CSV by calling FitTrackerRead.readSettings()
+		// Add components to respective panels
 		settingsPanel1
 				.add(new JLabel("Current Sleep Goal: " + FitTrackerRead.recalledSleepGoal + " hours", JLabel.CENTER));
 		settingsPanel1
@@ -210,8 +227,10 @@ public class FitTrackerGUI {
 		settingsPanel2.add(stepsGoalEntry);
 		settingsPanel3.add(sSaveButton);
 		settingsPanel3.add(updateLabel);
+		// Add ActionListener - call FitTrackerWrite.writeSettings() and pass user input
 		sSaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Check for unrealistic or invalid inputs
 				if (Integer.parseInt(sleepGoalEntry.getText()) <= 18
 						&& Integer.parseInt(stepsGoalEntry.getText()) <= 50000) {
 					try {
@@ -222,6 +241,7 @@ public class FitTrackerGUI {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
+					//Display action confirmation
 					updateLabel.setText("Settings Updated");
 					settingsPanel3.repaint();
 					settingsPanel3.revalidate();

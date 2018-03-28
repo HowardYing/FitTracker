@@ -20,18 +20,21 @@ public class FitTrackerRead {
 		String line = "";
 		String stringMonth = String.valueOf(month);
 		String stringDay = String.valueOf(day);
+		//Standardize user inputted date code by affixing 0 before months or days < 10
 		if (stringMonth.length() == 1) {
 			stringMonth = "0" + stringMonth;
 		}
 		if (stringDay.length() == 1) {
 			stringDay = "0" + stringDay;
 		}
-		String searchDateCode = String.valueOf(year) + stringMonth + stringDay;
+		String searchDateCode = String.valueOf(year) + stringMonth + stringDay; //Reconstruct date code from user input
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			br.readLine();
 			while ((line = br.readLine()) != null) {
+				//Search for matches in CSV by date code, index [0] of the array
 				String[] entry = line.split(",");
 				if (searchDateCode.equals(entry[0])) {
+					//Store matches in variables
 					recalledY = Character.toString(entry[0].charAt(0)) + Character.toString(entry[0].charAt(1))
 							+ Character.toString(entry[0].charAt(2)) + Character.toString(entry[0].charAt(3));
 					recalledM = Character.toString(entry[0].charAt(4)) + Character.toString(entry[0].charAt(5));
@@ -42,6 +45,7 @@ public class FitTrackerRead {
 					break;
 				}
 			}
+			//Catch statement for no result
 			if (recalledY == "") {
 				System.out.print("No findings");
 			}
@@ -57,11 +61,11 @@ public class FitTrackerRead {
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			br.readLine();
 			while ((line = br.readLine()) != null) {
+				//Fetch settings values; location is always same for these values in CSV
 				String[] setting = line.split(",");
+				//Store matches
 				recalledSleepGoal = setting[0];
 				recalledStepsGoal = setting[1];
-				System.out.println(recalledSleepGoal);
-				System.out.println(recalledStepsGoal);
 				}
 
 		} catch (IOException e) {
